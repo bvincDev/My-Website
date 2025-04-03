@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Billy Vincini</title>
+  <style>
+
+    /* Existing styles for header, nav, and container */
+    header {
+      background-color: #f4f4f4;
+      padding: 20px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    nav {
+      background-color: #333;
+      color: #fff;
+      padding: 10px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    nav a:hover,
+    nav a.active {
+      text-decoration: underline;
+    }
+    .container {
+      padding: 20px;
+      position: relative;
+      z-index: 1;
+      padding-bottom: 200px; /* Prevents content overlap with waves */
+    }
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.5s ease-in;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      position: relative;
+      overflow: hidden; /* Prevents scrollbars caused by waves */
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -4;
+    }
+
+    /* Updated 3D Wave Effect Styles */
+    .ocean {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      perspective: 1000px;
+      perspective-origin: 50% 0%;
+      z-index: -3;
+      background: linear-gradient(to bottom, #9594c8, #b9bad1);
+    }
+    .wave {
+      position: absolute;
+      bottom: -70px;
+      left: -20%;
+      width: 6400px; /* Fixed width to allow full wave animation */
+      height: 198px;
+      background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/85486/wave.svg) repeat-x;
+      background-size: 1601px 198px;
+      animation: wave 7s linear infinite;
+      filter: hue-rotate(60deg);
+    }
+    .wave1 {
+      animation: wave 7s linear infinite, swell1 7s ease -1.25s infinite;
+    }
+    .wave2 {
+      animation: wave 10s linear infinite, swell2 10s ease -1.25s infinite;
+      opacity: .8; /* Slightly faded for depth */
+    }
+    .wave3 {
+      animation: wave 14s linear infinite, swell3 14s ease -1.25s infinite;
+      opacity: 0.2; /* More faded for farther depth */
+    }
+
+    /* Horizontal wave movement */
+    @keyframes wave {
+      0% {
+        background-position-x: 0;
+      }
+      100% {
+        background-position-x: -1600px;
+      }
+    }
+
+    /* Vertical swell animations with depth */
+    @keyframes swell1 {
+      0%, 100% {
+        transform: translateY(-25px) translateZ(0px);
+      }
+      50% {
+        transform: translateY(5px) translateZ(0px);
+      }
+    }
+    @keyframes swell2 {
+      0%, 100% {
+        transform: translateY(-15px) translateZ(-50px);
+      }
+      50% {
+        transform: translateY(3px) translateZ(-50px);
+      }
+    }
+    @keyframes swell3 {
+      0%, 100% {
+        transform: translateY(-10px) translateZ(-100px);
+      }
+      50% {
+        transform: translateY(2px) translateZ(-100px);
+      }
+    }
+    header h1 {
+      position: relative;
+      font-family: 'Roboto', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 5px;
+      margin: 0;
+      /* Apply a gradient background that will show through the text */
+      background: linear-gradient(45deg, #c0cdd6, #90cbf5, #c0cdd6);
+      background-size: 200%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientShift 5s ease infinite;
+    }
+
+    /* Animate the gradient’s position for a shifting effect */
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    header {
+      position: relative;
+      overflow: hidden;
+      background: url("https://3.bp.blogspot.com/-04vqcpHNiuo/W0x2THLFZXI/AAAAAAAAOl8/DUvOAykZU9Q0rVaRw4nFTWQM-d8__k-agCLcBGAs/s1600/dresscounter.jpg") no-repeat center center;
+      background: linear-gradient(to bottom, rgba(109, 168, 200, 0.5), rgba(175, 204, 218, 0.5)), url("https://3.bp.blogspot.com/-04vqcpHNiuo/W0x2THLFZXI/AAAAAAAAOl8/DUvOAykZU9Q0rVaRw4nFTWQM-d8__k-agCLcBGAs/s1600/dresscounter.jpg") no-repeat center center;
+      background-size: cover;
+      padding: 50px 20px; /* Adjust padding as needed */
+      margin-top: 0px;
+      box-shadow: 0 15px 30px 0 rgba(233, 236, 243, 0.15);
+    }
+
+    header::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      /* Semi-transparent overlay that animates for subtle movement */
+      background: linear-gradient(45deg, rgba(255,255,255,0.2), rgba(0,0,0,0.2));
+      z-index: -1;
+      animation: overlayMove 10s ease infinite;
+    }
+
+    @keyframes overlayMove {
+      0% { transform: translateX(-100%); }
+      50% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+
+
+    
+  </style>
+</head>
+<body>
+  <!-- Header and Navigation -->
+  <header>
+    <h1 data-text="Billy Vincini">Billy Vincini</h1>
+  </header>
+  <nav>
+    <a data-tab="about" class="active">About</a>
+    <a data-tab="portfolio">Portfolio</a>
+    <a data-tab="contact">Contact</a>
+  </nav>
+  <div class="container">
+    <div id="about" class="tab-content active">
+      <h2>About</h2>
+      <p>Write something about yourself here.</p>
+    </div>
+    <div id="portfolio" class="tab-content">
+      <h2>Portfolio</h2>
+      <p><a href="https://github.com/bvincDev">github</a></p>
+    </div>
+    <div id="contact" class="tab-content">
+      <h2>Contact</h2>
+      <p>Provide your contact details or a contact form here.</p>
+    </div>
+  </div>
+
+  <!-- 3D Wave Effect -->
+  <div class="ocean">
+    <div class="wave wave1"></div>
+    <div class="wave wave2"></div>
+    <div class="wave wave3"></div>
+  </div>
+
+  <script>
+    const tabLinks = document.querySelectorAll('nav a');
+    const tabContents = document.querySelectorAll('.tab-content');
+    tabLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        tabLinks.forEach(item => item.classList.remove('active'));
+        tabContents.forEach(content => content.classList.remove('active'));
+        link.classList.add('active');
+        const target = link.getAttribute('data-tab');
+        document.getElementById(target).classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>
