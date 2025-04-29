@@ -4,238 +4,255 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Billy Vincini</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
+    /* CSS VARIABLES */
+    :root {
+      --color-primary: #4a90e2;
+      --color-secondary: #50e3c2;
+      --color-bg: #f9f9f9;
+      --color-text: #333;
+      --font-heading: 'Poppins', sans-serif;
+      --font-body: 'Roboto', sans-serif;
+      --transition-fast: 0.3s ease;
+    }
 
-    /* Existing styles for header, nav, and container */
-    header {
-      background-color: #f4f4f4;
-      padding: 20px;
-      text-align: center;
+    /* GLOBAL RESET */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-body);
+      color: var(--color-text);
+      background: var(--color-bg);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    a { text-decoration: none; color: inherit; cursor: pointer; }
+
+    /* HERO */
+    .hero {
       position: relative;
+      background: url('https://3.bp.blogspot.com/-04vqcpHNiuo/W0x2THLFZXI/AAAAAAAAOl8/DUvOAykZU9Q0rVaRw4nFTWQM-d8__k-agCLcBGAs/s1600/dresscounter.jpg') center/cover no-repeat;
+      height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+      z-index: 2;
+    }
+    .hero::after {
+      content: "";
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0.4);
       z-index: 1;
     }
-    nav {
-      background-color: #333;
-      color: #fff;
-      padding: 10px;
-      text-align: center;
+    .hero-content {
       position: relative;
-      z-index: 1;
+      z-index: 2;
+      max-width: 800px;
+      padding: 0 1rem;
+    }
+    .hero h1 {
+      font-family: var(--font-heading);
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(45deg, #c0cdd6, #90cbf5);
+      -webkit-background-clip: text;
+      color: transparent;
+      animation: gradientShift 8s ease infinite;
+    }
+    .hero p {
+      font-size: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background: var(--color-primary);
+      color: white;
+      border-radius: 4px;
+      font-weight: 600;
+      transition: background var(--transition-fast);
+    }
+    .btn:hover { background: var(--color-secondary); }
+
+    @keyframes gradientShift {
+      0%,100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    /* TOP NAVIGATION */
+    nav {
+      background: white;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 3;
+    }
+    .nav-container {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      padding: 1rem 0;
     }
     nav a {
-      color: #fff;
-      text-decoration: none;
-      margin: 0 15px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    nav a:hover,
-    nav a.active {
-      text-decoration: underline;
-    }
-    .container {
-      padding: 20px;
+      font-family: var(--font-heading);
       position: relative;
-      z-index: 1;
-      padding-bottom: 200px; /* Prevents content overlap with waves */
+      padding: 0.25rem 0;
+      transition: color var(--transition-fast);
+    }
+    nav a.active {
+      color: var(--color-primary);
+    }
+    nav a::after {
+      content: "";
+      position: absolute; bottom: -4px; left: 0;
+      width: 0; height: 2px; background: var(--color-primary);
+      transition: width var(--transition-fast);
+    }
+    nav a.active::after,
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    /* MAIN CONTENT */
+    main {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1rem 10vh; /* bottom padding for waves */
+      position: relative;
+      z-index: 2;
     }
     .tab-content {
       display: none;
-      animation: fadeIn 0.5s ease-in;
+      animation: fadeIn 0.4s ease-in;
     }
     .tab-content.active {
       display: block;
     }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      position: relative;
-      overflow: hidden; /* Prevents scrollbars caused by waves */
-    }
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -4;
-    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-    /* Updated 3D Wave Effect Styles */
+    /* FOOTER */
+    footer {
+      background: #222;
+      color: white;
+      text-align: center;
+      padding: 2rem 1rem;
+      margin-top: 4rem;
+      position: relative;
+      z-index: 2;
+    }
+    footer p { margin-bottom: 0.5rem; }
+    footer a { color: var(--color-secondary); }
+
+    /* 3D WAVE EFFECT */
     .ocean {
       position: fixed;
-      top: 0;
+      bottom: 0;
       left: 0;
       width: 100%;
-      height: 100%;
+      height: 30vh;
       perspective: 1000px;
       perspective-origin: 50% 0%;
-      z-index: -3;
-      background: linear-gradient(to bottom, #9594c8, #b9bad1);
+      z-index: 1;
+      overflow: hidden;
+      background: transparent;
     }
     .wave {
       position: absolute;
-      bottom: -70px;
-      left: -20%;
-      width: 6400px; /* Fixed width to allow full wave animation */
-      height: 198px;
-      background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/85486/wave.svg) repeat-x;
-      background-size: 1601px 198px;
+      bottom: 0;
+      left: 0;
+      width: 800%;
+      height: 200px;
+      background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/85486/wave.svg') repeat-x;
+      background-size: 1600px 200px;
       animation: wave 7s linear infinite;
-      filter: hue-rotate(60deg);
+      opacity: 0.6;
     }
-    .wave1 {
-      animation: wave 7s linear infinite, swell1 7s ease -1.25s infinite;
-    }
+    .wave1 { animation-duration: 7s; }
     .wave2 {
-      animation: wave 10s linear infinite, swell2 10s ease -1.25s infinite;
-      opacity: .8; /* Slightly faded for depth */
+      animation-duration: 10s;
+      opacity: 0.4;
+      bottom: 10px;
     }
     .wave3 {
-      animation: wave 14s linear infinite, swell3 14s ease -1.25s infinite;
-      opacity: 0.2; /* More faded for farther depth */
+      animation-duration: 14s;
+      opacity: 0.2;
+      bottom: 15px;
     }
-
-    /* Horizontal wave movement */
     @keyframes wave {
-      0% {
-        background-position-x: 0;
-      }
-      100% {
-        background-position-x: -1600px;
-      }
+      0%   { background-position-x: 0; }
+      100% { background-position-x: -1600px; }
     }
-
-    /* Vertical swell animations with depth */
-    @keyframes swell1 {
-      0%, 100% {
-        transform: translateY(-25px) translateZ(0px);
-      }
-      50% {
-        transform: translateY(5px) translateZ(0px);
-      }
-    }
-    @keyframes swell2 {
-      0%, 100% {
-        transform: translateY(-15px) translateZ(-50px);
-      }
-      50% {
-        transform: translateY(3px) translateZ(-50px);
-      }
-    }
-    @keyframes swell3 {
-      0%, 100% {
-        transform: translateY(-10px) translateZ(-100px);
-      }
-      50% {
-        transform: translateY(2px) translateZ(-100px);
-      }
-    }
-    header h1 {
-      position: relative;
-      font-family: 'Roboto', sans-serif;
-      text-transform: uppercase;
-      letter-spacing: 5px;
-      margin: 0;
-      /* Apply a gradient background that will show through the text */
-      background: linear-gradient(45deg, #c0cdd6, #90cbf5, #c0cdd6);
-      background-size: 200%;
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: gradientShift 5s ease infinite;
-    }
-
-    /* Animate the gradient’s position for a shifting effect */
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-    header {
-      position: relative;
-      overflow: hidden;
-      background: url("https://3.bp.blogspot.com/-04vqcpHNiuo/W0x2THLFZXI/AAAAAAAAOl8/DUvOAykZU9Q0rVaRw4nFTWQM-d8__k-agCLcBGAs/s1600/dresscounter.jpg") no-repeat center center;
-      background: linear-gradient(to bottom, rgba(109, 168, 200, 0.5), rgba(175, 204, 218, 0.5)), url("https://3.bp.blogspot.com/-04vqcpHNiuo/W0x2THLFZXI/AAAAAAAAOl8/DUvOAykZU9Q0rVaRw4nFTWQM-d8__k-agCLcBGAs/s1600/dresscounter.jpg") no-repeat center center;
-      background-size: cover;
-      padding: 50px 20px; /* Adjust padding as needed */
-      margin-top: 0px;
-      box-shadow: 0 15px 30px 0 rgba(233, 236, 243, 0.15);
-    }
-
-    header::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      /* Semi-transparent overlay that animates for subtle movement */
-      background: linear-gradient(45deg, rgba(255,255,255,0.2), rgba(0,0,0,0.2));
-      z-index: -1;
-      animation: overlayMove 10s ease infinite;
-    }
-
-    @keyframes overlayMove {
-      0% { transform: translateX(-100%); }
-      50% { transform: translateX(100%); }
-      100% { transform: translateX(-100%); }
-    }
-
-
-    
   </style>
 </head>
 <body>
-  <!-- Header and Navigation -->
-  <header>
-    <h1 data-text="Billy Vincini">Billy Vincini</h1>
-  </header>
-  <nav>
-    <a data-tab="about" class="active">About</a>
-    <a data-tab="portfolio">Portfolio</a>
-    <a data-tab="contact">Contact</a>
-  </nav>
-  <div class="container">
-    <div id="about" class="tab-content active">
-      <h2>About</h2>
-      <p>Write something about yourself here.</p>
-    </div>
-    <div id="portfolio" class="tab-content">
-      <h2>Portfolio</h2>
-      <p><a href="https://github.com/bvincDev">github</a></p>
-    </div>
-    <div id="contact" class="tab-content">
-      <h2>Contact</h2>
-      <p>Provide your contact details or a contact form here.</p>
-    </div>
-  </div>
 
-  <!-- 3D Wave Effect -->
+  <!-- Waves Background -->
   <div class="ocean">
     <div class="wave wave1"></div>
     <div class="wave wave2"></div>
     <div class="wave wave3"></div>
   </div>
 
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Billy Vincini</h1>
+      <p>Welcome! I’m Billy, a student at Kent State University majoring in computer science concentrating in cyber-security</p>
+      <a href="#about" class="btn">Learn More</a>
+    </div>
+  </section>
+
+  <!-- NAVIGATION -->
+  <nav>
+    <div class="nav-container">
+      <a data-tab="about" class="active">About</a>
+      <a data-tab="portfolio">Portfolio</a>
+      <a data-tab="contact">Contact</a>
+    </div>
+  </nav>
+
+  <!-- CONTENT SECTIONS -->
+  <main>
+    <div id="about" class="tab-content active">
+      <h2>About</h2>
+      <p>Write something about yourself here.</p>
+    </div>
+    <div id="portfolio" class="tab-content">
+      <h2>Portfolio</h2>
+      <p><a href="https://github.com/bvincDev" target="_blank">View my GitHub →</a></p>
+    </div>
+    <div id="contact" class="tab-content">
+      <h2>Contact</h2>
+      <p>Feel free to <a href="mailto:youremail@example.com">email me</a> or connect on <a href="#">LinkedIn</a>.</p>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 Billy Vincini</p>
+    <p><a href="#">Privacy Policy</a> | <a href="#">Terms</a></p>
+  </footer>
+
+  <!-- NAV-TO-TAB SCRIPT -->
   <script>
-    const tabLinks = document.querySelectorAll('nav a');
+    const navLinks = document.querySelectorAll('nav a');
     const tabContents = document.querySelectorAll('.tab-content');
-    tabLinks.forEach(link => {
+
+    navLinks.forEach(link => {
       link.addEventListener('click', () => {
-        tabLinks.forEach(item => item.classList.remove('active'));
-        tabContents.forEach(content => content.classList.remove('active'));
+        // Switch active nav
+        navLinks.forEach(l => l.classList.remove('active'));
         link.classList.add('active');
+        // Switch content
         const target = link.getAttribute('data-tab');
+        tabContents.forEach(c => c.classList.remove('active'));
         document.getElementById(target).classList.add('active');
       });
     });
   </script>
+
 </body>
 </html>
