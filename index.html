@@ -32,20 +32,21 @@
     /* HERO */
     .hero {
       position: relative;
-      background: url('https://3.bp.blogspot.com/-04vqcpHNiuo/W0x2THLFZXI/AAAAAAAAOl8/DUvOAykZU9Q0rVaRw4nFTWQM-d8__k-agCLcBGAs/s1600/dresscounter.jpg') center/cover no-repeat;
       height: 50vh;
+      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
       color: white;
-      z-index: 2;
     }
-    .hero::after {
-      content: "";
-      position: absolute; inset: 0;
-      background: rgba(0,0,0,0.4);
+    /* Matrix canvas */
+    #matrix-canvas {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       z-index: 1;
+      background: rgb(40, 84, 114);
     }
     .hero-content {
       position: relative;
@@ -55,28 +56,41 @@
     }
     .hero h1 {
       font-family: var(--font-heading);
-      font-size: 3rem;
-      margin-bottom: 1rem;
-      background: linear-gradient(45deg, #c0cdd6, #90cbf5);
+      /* Responsive sizing: scales between 2.5rem and 4rem */
+      font-size: clamp(2.5rem, 5vw + 1rem, 4rem);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      
+      /* Gradient text */
+      background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+      background-clip: text;
       -webkit-background-clip: text;
       color: transparent;
-      animation: gradientShift 8s ease infinite;
+      
+      /* Subtle drop-shadow to lift off background */
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0);
+      
+      /* Optional fade-in on load */
+      opacity: 0;
+      animation: fadeInUp 1s ease-out forwards;
+    }
+
+    /* Keyframes for subtle slide-up + fade-in */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
     .hero p {
       font-size: 1.25rem;
       margin-bottom: 1.5rem;
     }
-    .btn {
-      display: inline-block;
-      padding: 0.75rem 1.5rem;
-      background: var(--color-primary);
-      color: white;
-      border-radius: 4px;
-      font-weight: 600;
-      transition: background var(--transition-fast);
-    }
-    .btn:hover { background: var(--color-secondary); }
-
     @keyframes gradientShift {
       0%,100% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
@@ -120,7 +134,7 @@
     main {
       max-width: 900px;
       margin: 2rem auto;
-      padding: 0 1rem 10vh; /* bottom padding for waves */
+      padding: 0 1rem 10vh;
       position: relative;
       z-index: 2;
     }
@@ -145,15 +159,12 @@
     }
     footer p { margin-bottom: 0.5rem; }
     footer a { color: var(--color-secondary); }
-    
 
     /* 3D WAVE EFFECT */
     .ocean {
       position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 30vh;
+      bottom: 0; left: 0;
+      width: 100%; height: 30vh;
       perspective: 1000px;
       perspective-origin: 50% 0%;
       z-index: 1;
@@ -161,29 +172,17 @@
       background: transparent;
     }
     .wave {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 800%;
-      height: 200px;
+      position: absolute; bottom: 0; left: 0;
+      width: 800%; height: 200px;
       background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/85486/wave.svg') repeat-x;
       background-size: 1600px 200px;
       animation: wave 7s linear infinite;
       opacity: 0.6;
     }
-    .wave1 { animation-duration: 7s; }
-    .wave2 {
-      animation-duration: 10s;
-      opacity: 0.4;
-      bottom: 10px;
-    }
-    .wave3 {
-      animation-duration: 14s;
-      opacity: 0.2;
-      bottom: 15px;
-    }
+    .wave2 { animation-duration: 10s; opacity: 0.4; bottom: 10px; }
+    .wave3 { animation-duration: 14s; opacity: 0.2; bottom: 15px; }
     @keyframes wave {
-      0%   { background-position-x: 0; }
+      0% { background-position-x: 0; }
       100% { background-position-x: -1600px; }
     }
   </style>
@@ -199,10 +198,10 @@
 
   <!-- HERO -->
   <section class="hero">
+    <canvas id="matrix-canvas"></canvas>
     <div class="hero-content">
       <h1>Billy Vincini</h1>
       <p>Welcome! I’m Billy, a student at Kent State University majoring in computer science concentrating in Cyber-Security</p>
-      <!-- <a href="#about" class="btn">Learn More</a> -->
     </div>
   </section>
 
@@ -225,7 +224,6 @@
       <h2>Portfolio</h2>
       <p><a href="https://github.com/bvincDev" target="_blank">View my GitHub →</a></p>
       <p><a href="https://thebillydev.itch.io/" target="_blank">View my itch.io →</a></p>
-    
     </div>
     <div id="contact" class="tab-content">
       <h2>Contact</h2>
@@ -239,23 +237,54 @@
     <p><a href="#">Privacy Policy</a> | <a href="#">Terms</a></p>
   </footer>
 
-  <!-- NAV-TO-TAB SCRIPT -->
+  <!-- SCRIPTS -->
   <script>
+    // Navigation tabs
     const navLinks = document.querySelectorAll('nav a');
     const tabContents = document.querySelectorAll('.tab-content');
-
     navLinks.forEach(link => {
       link.addEventListener('click', () => {
-        // Switch active nav
         navLinks.forEach(l => l.classList.remove('active'));
         link.classList.add('active');
-        // Switch content
         const target = link.getAttribute('data-tab');
         tabContents.forEach(c => c.classList.remove('active'));
         document.getElementById(target).classList.add('active');
       });
     });
-  </script>
 
+    // Matrix rain effect
+    (function() {
+      const canvas = document.getElementById('matrix-canvas');
+      const ctx = canvas.getContext('2d');
+      function resize() {
+        canvas.width  = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      const letters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+[]{}|;:,.<>?';
+      const charArr = letters.split('');
+      const fontSize = 10;
+      const columns = Math.floor(canvas.width / fontSize);
+      const drops = Array(columns).fill(0);
+      const themeColor = getComputedStyle(document.documentElement).getPropertyValue('--color-secondary').trim() || '#50e3c2';
+
+      function draw() {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = themeColor;
+        ctx.font = fontSize + 'px monospace';
+        for (let i = 0; i < drops.length; i++) {
+          const text = charArr[Math.floor(Math.random() * charArr.length)];
+          ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+          if (drops[i] * fontSize > canvas.height && Math.random() > .975) drops[i] = 0;
+          drops[i]++;
+        }
+      }
+
+      setInterval(draw, 50);
+    })();
+  </script>
 </body>
 </html>
